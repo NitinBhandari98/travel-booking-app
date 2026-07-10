@@ -1,4 +1,5 @@
 import HotelCard from "../Hotels/HotelCard";
+import { auth, db } from "../../firebase";
 
 const hotels = [
   {

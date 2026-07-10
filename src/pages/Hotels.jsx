@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { auth, db } from "../firebase";
+import { useSearchParams } from "react-router-dom";
+
 import {
   addDoc,
   collection,
@@ -51,7 +53,11 @@ const hotelsData = [
 ];
 
 export default function Hotels() {
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+
+const [search, setSearch] = useState(
+  searchParams.get("search") || ""
+);
 
   const filteredHotels = hotelsData.filter(
     (hotel) =>
@@ -75,11 +81,11 @@ export default function Hotels() {
       const snapshot = await getDocs(q);
 
       if (!snapshot.empty) {
-        toast.success("❤️ Added To Wishlist");
+        toast.info("Already in Wishlist ❤️");
         return;
       }
 
-      const docRef = await addDoc(collection(db, "wishlist"), {
+      await addDoc(collection(db, "wishlist"), {
         userId: auth.currentUser.uid,
         hotelId: hotel.id,
         hotel: hotel.name,
@@ -90,15 +96,15 @@ export default function Hotels() {
         createdAt: serverTimestamp(),
       });
 
-      console.log("Wishlist saved:", docRef.id);
-
       toast.success("❤️ Added To Wishlist");
     } catch (err) {
       console.log(err);
-     toast.error(err.message);
+      toast.error(err.message);
     }
   };
 
+  console.log("Search =", search);
+console.log("Filtered =", filteredHotels.length);
   return (
     <section className="bg-gradient-to-b from-gray-100 to-white min-h-screen pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-6">
@@ -122,32 +128,38 @@ export default function Hotels() {
               className="border rounded-xl p-4 outline-none focus:border-orange-500"
             />
 
-            <input type="date" className="border rounded-xl p-4" />
-            <input type="date" className="border rounded-xl p-4" />
+            <input
+              type="date"
+              className="border rounded-xl p-4"
+            />
 
-            <button className="bg-orange-500 text-white rounded-xl">
+            <input
+              type="date"
+              className="border rounded-xl p-4"
+            />
+
+            <button className="bg-orange-500 text-white rounded-xl font-semibold">
               Search
             </button>
 
             <button
               onClick={() => setSearch("")}
-              className="bg-gray-700 text-white rounded-xl"
+              className="bg-gray-700 text-white rounded-xl font-semibold"
             >
               Reset
             </button>
 
           </div>
         </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
           {filteredHotels.length > 0 ? (
-            filteredHotels.map((hotel) => (              <div
+            filteredHotels.map((hotel) => (
+              <div
                 key={hotel.id}
                 className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 duration-300"
               >
                 <div className="relative">
-
                   <img
                     src={hotel.image}
                     alt={hotel.name}
@@ -160,13 +172,10 @@ export default function Hotels() {
                   >
                     ❤️
                   </button>
-
                 </div>
 
                 <div className="p-6">
-
                   <div className="flex justify-between items-center">
-
                     <h2 className="text-xl font-bold">
                       {hotel.name}
                     </h2>
@@ -174,7 +183,6 @@ export default function Hotels() {
                     <span className="font-semibold">
                       ⭐ {hotel.rating}
                     </span>
-
                   </div>
 
                   <p className="text-gray-500 mt-2">
@@ -182,9 +190,7 @@ export default function Hotels() {
                   </p>
 
                   <div className="flex justify-between items-center mt-6">
-
                     <div>
-
                       <h3 className="text-orange-500 text-2xl font-bold">
                         {hotel.price}
                       </h3>
@@ -192,7 +198,6 @@ export default function Hotels() {
                       <p className="text-sm text-gray-500">
                         per night
                       </p>
-
                     </div>
 
                     <Link
@@ -201,16 +206,12 @@ export default function Hotels() {
                     >
                       View Details
                     </Link>
-
                   </div>
-
                 </div>
-
               </div>
             ))
           ) : (
             <div className="col-span-4 text-center py-20">
-
               <h2 className="text-3xl font-bold">
                 No Hotels Found 😔
               </h2>
@@ -219,12 +220,17 @@ export default function Hotels() {
                 Try searching with another destination.
               </p>
 
+              <button
+                onClick={() => setSearch("")}
+                className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl"
+              >
+                Show All Hotels
+              </button>
             </div>
           )}
 
         </div>
-
       </div>
     </section>
   );
-}
+}        

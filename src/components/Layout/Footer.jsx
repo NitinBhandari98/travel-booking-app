@@ -200,6 +200,14 @@ export default function Footer() {
             <p className="text-gray-400 mt-4 md:mt-0 text-center">
               Made with ❤️ using React & Tailwind CSS
             </p>
+            <p className="mt-4 text-center text-sm text-gray-400">
+  Crafted with
+  <span className="text-red-500 mx-1">❤️</span>
+  by
+  <span className="font-bold text-orange-400 ml-1 tracking-wider">
+    Nitin Bhandari
+  </span>
+</p>
 
           </div>
 

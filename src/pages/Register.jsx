@@ -10,10 +10,12 @@ import {
 } from "react-icons/fa";
 
 import { auth, db } from "../firebase";
+
 import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+
 import { doc, setDoc } from "firebase/firestore";
 
 export default function Register() {
@@ -68,15 +70,17 @@ export default function Register() {
 
   return (
     <section
-      className="min-h-screen flex items-center justify-center p-8 bg-cover bg-center bg-no-repeat"
+      className="min-h-screen flex items-center justify-center p-8 bg-cover bg-center"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=80')",
       }}
     >
-      <div className="w-full max-w-6xl bg-white/95 backdrop-blur-xl rounded-[35px] overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.35)] grid lg:grid-cols-2"></div>
-              {/* Left Side */}
-        <div className="relative hidden lg:block">
+      <div className="w-full max-w-6xl bg-white/95 rounded-3xl overflow-hidden shadow-2xl grid lg:grid-cols-2">
+
+        {/* Left Side */}
+
+        <div className="hidden lg:block relative">
 
           <img
             src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
@@ -84,23 +88,29 @@ export default function Register() {
             className="w-full h-full object-cover"
           />
 
-          < div className="absolute inset-0 bg-black/30">
+          <div className="absolute inset-0 bg-black/40"></div>
 
-          <div className="absolute top-10 left-10">
-            <h1 className="text-5xl font-extrabold text-white">
-              <span className="text-orange-400">Travel</span>Go
+          <div className="absolute top-10 left-10 text-white">
+
+            <h1 className="text-5xl font-bold">
+              <span className="text-orange-400">
+                Travel
+              </span>
+              Go
             </h1>
 
-            <p className="text-white text-lg mt-5 leading-8 max-w-sm">
-              Join thousands of travelers and start exploring amazing
-              destinations today.
+            <p className="mt-6 text-lg leading-8 max-w-sm">
+              Join thousands of travelers and start your next
+              adventure with TravelGo.
             </p>
+
           </div>
 
         </div>
 
         {/* Right Side */}
-        <div className="flex items-center justify-center p-10 lg:p-14">
+
+        <div className="flex items-center justify-center p-10">
 
           <div className="w-full max-w-md">
 
@@ -109,15 +119,16 @@ export default function Register() {
             </h2>
 
             <p className="text-gray-500 mt-3 mb-8">
-              Register to start your journey.
+              Register to continue.
             </p>
 
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Full Name
             </label>
 
             <div className="flex items-center border rounded-xl h-14 px-4 mt-2 mb-5">
               <FaUser className="text-gray-400" />
+
               <input
                 type="text"
                 placeholder="Enter your name"
@@ -127,12 +138,13 @@ export default function Register() {
               />
             </div>
 
-            <label className="font-semibold text-gray-700">
-              Email Address
+            <label className="font-semibold">
+              Email
             </label>
 
             <div className="flex items-center border rounded-xl h-14 px-4 mt-2 mb-5">
               <FaEnvelope className="text-gray-400" />
+
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -142,12 +154,13 @@ export default function Register() {
               />
             </div>
 
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Password
             </label>
 
             <div className="flex items-center border rounded-xl h-14 px-4 mt-2 mb-6">
               <FaLock className="text-gray-400" />
+
               <input
                 type="password"
                 placeholder="Create password"
@@ -156,41 +169,50 @@ export default function Register() {
                 className="flex-1 ml-3 outline-none"
               />
             </div>
-
-            <button
+                        <button
               onClick={handleRegister}
               disabled={loading}
-              className="w-full h-14 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg"
+              className="w-full h-14 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg transition disabled:opacity-70"
             >
               {loading ? "Creating Account..." : "Create Account"}
             </button>
 
             <div className="flex items-center my-8">
               <div className="flex-1 h-px bg-gray-300"></div>
-              <span className="mx-4 text-gray-400">OR</span>
+
+              <span className="mx-4 text-gray-400">
+                OR
+              </span>
+
               <div className="flex-1 h-px bg-gray-300"></div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
 
-              <button className="border h-12 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-100">
+              <button
+                type="button"
+                className="border h-12 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-100 transition"
+              >
                 <FaGoogle className="text-red-500" />
                 Google
               </button>
 
-              <button className="border h-12 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-100">
+              <button
+                type="button"
+                className="border h-12 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-100 transition"
+              >
                 <FaFacebookF className="text-blue-600" />
                 Facebook
               </button>
 
             </div>
 
-            <p className="text-center mt-8 text-gray-500">
+            <p className="text-center mt-8 text-gray-600">
               Already have an account?
 
               <Link
                 to="/login"
-                className="text-orange-500 font-bold ml-2 hover:underline"
+                className="ml-2 text-orange-500 font-bold hover:underline"
               >
                 Login
               </Link>
